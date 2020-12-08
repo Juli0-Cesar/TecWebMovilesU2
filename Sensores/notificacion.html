@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones</title>
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/CodeStyler.css">
+</head>
+
+<body>
+   
+    <br>
+    <div id="header">
+        <h1 class="titulo"><a href="../index.html">Tecnolog&iacute;as web para m&oacute;viles </a></h1>
+        <div class="description">Características avanzadas de HTML5 y JS</div>
+    </div>
+    <br><br>
+
+    <div id="contenedor-principal">
+        <h1 class="text-center">Notificaciones</h1>
+        <h2>Ejemplo</h2>
+        <div class="ejemplo">
+
+          <button class="btn btn-success" onclick="mostrarNotificacion()">Mostrar notificación</button>
+            <p id="txtMensaje"></p>
+                
+        </div>
+    
+        <br>
+        <h2>¿Qu&eacute; es una notificaci&oacute;n web?</h2>
+        <p style="margin-left:30px ;">
+            Las notificaciones nos permiten mostrar un cuadro emergente con un texto y una imagen que aparecerá encima de todas las ventanas, aunque no estemos mirando el navegador. Como vemos en la imagen en la notificación tenemos un título, un texto y una imagen, que podemos usar de distintas formas.
+        </p>
+    
+        <br>
+        <h2>Casos de uso para su implementaci&oacute;n</h2>
+        <p style="margin-left:30px ;">
+            Las notificaciones son una herramienta muy importante para nosotros como desarrolladores como para los usuarios de nuestro sitio web ya que nos permiten notificarlos de eventos que podr&iacute;an ser de su inter&eacute;s  
+            aumentando asi el SEO del sitio web pero a su vez podr&iacute;a ser una herramienta de doble filo ya que si se usan con demasiada frecuencia podr&iacute;a darle al usuario una terrible experiencia de usuario y no solo dentro de nuestra aplicaci&oacute;n web<br>
+            <br> Algunas situaciones donde podr&iacute;amos llegar a implementar este servicio seria cuando tenemos alg&uacute;n servicio se mensajer&iacute;a como correos electr&oacute;nicos, o mensajes instant&aacute;neos y esos mensajes son de inter&eacute;s  para el usuario, cuando el usuario ha olvidado durante unos d&iacute;as la pagina web como m&eacute;todo de recordatorio mediante alg&uacute;n evento de su inter&eacute;s  
+        </p>
+    
+        <br>
+        <h2>Como implementarlos</h2>
+        <p style="margin-left:30px ;">
+            El primer paso para su implementaci&oacute;n es verificar que el navegador es compatible con las notificaciones esto lo realizamos con el siguiente c&oacute;digo Java Script
+            <pre><code>
+    if (!window.Notification) {
+        console.log("No es compatible tu navegador");
+    }
+            </code></pre> 
+        </p>
+        <p style="margin-left:30px ;">
+            <br>Si es compatible es necesario solicitar al usuario los permisos para usar las notificaciones para ello tenemos el siguiente c&oacute;digo
+            <pre><code>
+    Notification.requestPermission(function (status) {
+        /*Si es compatible este apartado sera ejecutado*/
+    }
+            </code></pre> 
+        </p>
+
+        <p style="margin-left:30px ;">
+            <br>En caso de que el usuario acepte podremos llenar los siguientes campos para especificar el mensaje, imagen, y algunas otras caracter&iacute;sticas a mostrar
+            <pre><code>
+
+    if (Notification.permission == "granted") {
+        var n = new Notification("Hola mundo!", {
+            body: "Esta es una notificación",
+            icon: "https://urlIcono/imgen.png",
+            image: "https://urlImagen/imagen.jpg",
+            vibrate: [200, 100],
+            data: { userId: 1235, mensaje: "Este es el mensaje" },
+        });
+        n.onclick = (args) => {
+            alert("Se le dio click");
+            console.log(args.currentTarget.data);
+        }
+    } else {
+        txtMensaje.innerText = "No tienes permiso para mandar notifiaciones";
+    }
+            </code></pre> 
+        </p>
+    
+      </div>
+
+
+
+    
+    <script>
+        function mostrarNotificacion() {
+            var txtMensaje = document.getElementById("txtMensaje");
+            if (!window.Notification) {
+                txtMensaje.innerText = "No es compatible tu navegador";
+            }
+            Notification.requestPermission(function (status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+
+                if (Notification.permission == "granted") {
+                    var n = new Notification("Hola mundo!", {
+                        body: "Esta es una notificación",
+                        icon: "https://e7.pngegg.com/pngimages/915/586/png-clipart-computer-icons-user-profile-icon-design-ico-profile-silhouette-profile-thumbnail.png",
+                        image: "https://ecosistemas.ovacen.com/wp-content/uploads/2018/01/bosque-1280x720.jpg",
+                        vibrate: [200, 100],
+                        data: { userId: 1235, mensaje: "Este es el mensaje" },
+
+                    });
+
+                    n.onclick = (args) => {
+                        alert("Se le dio click");
+                        console.log(args.currentTarget.data);
+                    }
+                } else {
+                    txtMensaje.innerText = "No tienes permiso para mandar notifiaciones";
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

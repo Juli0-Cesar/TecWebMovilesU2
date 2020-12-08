@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+</head>
+<body onload="dibujar()">
+    <!-- <button onclick="dibujar()">Dibujar</button> -->
+    <p id="txtMensaje"></p>
+    <canvas id="canvas" style="width: 100%; height: 100%;"></canvas>
+
+    <script>
+        var txtMensaje = document.getElementById("txtMensaje");
+
+        function dibujar() {
+            var canvas = document.getElementById("canvas");
+            if(!canvas.getContext) {
+                txtMensaje.innerText = "Tu navegador no es compatible";
+                return;
+            }
+            
+            var ctx = canvas.getContext('2d');
+            // ctx.fillRect(25, 25, 50, 100);
+            // ctx.strokeRect(50, 50, 100, 50);
+
+            // ctx.clearRect(25, 25, 25, 25);
+
+            // ctx.beginPath();
+            // ctx.moveTo(75, 50);
+            // ctx.lineTo(100, 75);
+            // ctx.lineTo(100, 25);
+            // ctx.closePath();
+            // ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(75, 75, 50, 0, Math.PI*2, true);
+            ctx.moveTo(110, 75);
+            ctx.arc(75, 75, 35, 0, Math.PI, false);
+            ctx.moveTo(95, 65);
+            ctx.arc(65, 65, 5, 0, Math.PI * 2, false);
+            ctx.moveTo(95, 65);
+            ctx.arc(90, 65, 5, 0, Math.PI * 2, false);
+            ctx.stroke();
+        }
+
+    </script>
+</body>
+</html>

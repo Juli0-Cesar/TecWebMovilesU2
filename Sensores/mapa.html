@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocalizaci&oacute;n y Mapas en Google</title>
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/CodeStyler.css">
+</head>
+
+<body>
+
+    <br>
+    <div id="header">
+        <h1 class="titulo"><a href="../index.html">Tecnolog&iacute;as web para m&oacute;viles </a></h1>
+        <div class="description">Características avanzadas de HTML5 y JS</div>
+    </div>
+    <br><br>
+
+    <div id="contenedor-principal">
+        <h1 class="text-center">Geolocalizaci&oacute;n y Mapas en Google</h1>
+        <h2>Ejemplo</h2>
+        <div class="ejemplo">
+
+            <button onclick="obtenerLocalizacion()" class="btn btn-success">Obtener localización</button>
+            <p id="txtLocalizacion"></p>
+            <img id="map">
+
+        </div>
+
+        <br>
+        <h2>¿Que es la API de google maps?</h2>
+        <p style="margin-left:30px ;">
+            Google nos permite consumir algunso de sus servicios web como lo es acceder a los papas de Google as&iacute;
+            como todos los aspectos, desde las capacidades de personalización y la habilidad para trazar capas hasta el
+            acceso a Street View y la manipulación del punto de vista, y comprobamos que Google Maps Platform cumplía
+            con todas nuestras necesidades. Las plataformas alternativas no estaban a la altura, por lo que no hubo que
+            pensarlo mucho para tomar una decisión </p>
+
+        <br>
+        <h2>Casos de uso para su implementaci&oacute;n</h2>
+        <p style="margin-left:30px ;">
+            Esta api ademas de ser una de las mas baratas de google te permite mostrar en tiempo lugar la localizacion
+            de algun establecimiento o lugar lo cual es una carracteristica muy solicitada por casi cualquier empresa
+            con local o locales fisicos, as&iacute; como para compartir la informacion de algun lugar de forma practiva
+            mediante las referencias visuales que Google nos comparte
+        </p>
+
+        <br>
+        <h2>Como implementarlos</h2>
+        <p style="margin-left:30px ;">
+            El primer paso es registrarse en Google e iniciar una cuenta ya sea de prueba o no mediante tarjeta de
+            credito en la pagina de Google Cloud, una vez registrado crear un servicio de mapas para obtener asi el end
+            point de la api asi como la clave para su uso, una vez cumplido estos requisitos podemos coninuar con la
+            programaci&oacute;n
+        </p>
+        <p style="margin-left: 30px;">
+            En este caso obtendremos una imgen estatica dadas algunas cordenadas, en este caso la localicacion del
+            equipo para esto comprobaremos primero si es compatible
+         <pre><code>
+    if (!navigator.geolocation) {
+        txtLocalizacion.innerText = "Tu navegador no es compatible";
+    }
+        </pre></code>
+        </p>
+
+        <p style="margin-left: 30px;">
+            Una vez que comprobamos que es compatible solicitamos el permiso al usuario
+       <pre><code>
+    navigator.geolocation.getCurrentPosition(mostrarPos, errorLoc);
+        </pre></code>
+        </p>
+
+        <p style="margin-left: 30px;">
+            En el codigo anterior se llama a la fincion mostrarPost en la cual se resiviran las cordenadas y apartir de
+            estas se hara la solicitud a la api de Google con los datos de conexi&oacute;n
+        <pre><code>
+    function mostrarPos(pos) {
+        txtLocalizacion.innerHTML = "Latitud: " + pos.coords.latitude + "< b r />"
+        + "Longitud: " + pos.coords.longitude;
+        var img_url = "https://maps.googleapis.com/maps/api/staticmap" +
+        "?center=" + pos.coords.latitude + "," + pos.coords.longitude +
+        "&zoom=14" +
+        "&size=400x300" +
+        "&key=tuKeyDeAcceso";
+        var map = document.getElementById("map");
+        map.setAttribute("src", img_url);
+    }
+        </pre></code>
+        </p>
+    </div>
+
+
+
+    <script>
+        var txtLocalizacion = document.getElementById("txtLocalizacion");
+
+        function obtenerLocalizacion() {
+            if (!navigator.geolocation) {
+                txtLocalizacion.innerText = "Tu navegador no es compatible";
+            }
+            // Flujo normal
+            // setInterval(() => {
+            //     navigator.geolocation.getCurrentPosition(mostrarPos, errorLoc);
+            // }, 1000);
+            navigator.geolocation.getCurrentPosition(mostrarPos, errorLoc);
+        }
+
+        function mostrarPos(pos) {
+            txtLocalizacion.innerHTML = "Latitud: " + pos.coords.latitude + "<br/>"
+                + "Longitud: " + pos.coords.longitude;
+
+            var img_url = "https://maps.googleapis.com/maps/api/staticmap" +
+                "?center=" + pos.coords.latitude + "," + pos.coords.longitude +
+                "&zoom=14" +
+                "&size=400x300" +
+                "&key=AIzaSyCv9VAsM4KzjDdvuV2CzFAMuazqOfqFlgM";
+
+            var map = document.getElementById("map");
+            map.setAttribute("src", img_url);
+        }
+
+        function errorLoc(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    txtLocalizacion.innerText = "No tienes permisos de acceder a la Geolocalización";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    txtLocalizacion.innerText = "No se pudo acceder a la localización";
+                    break;
+                case error.TIMEOUT:
+                    txtLocalizacion.innerText = "El tiempo de respuesta para obtener la localización se agoto";
+                    break;
+                case error.UKNOWN_ERROR:
+                    txtLocalizacion.innerText = "A ocurrudo un error";
+                default:
+                    txtLocalizacion.innerText = "A ocurrudo un error";
+                    break;
+            }
+        }
+    </script>
+</body>
+
+</html>

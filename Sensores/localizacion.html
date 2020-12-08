@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apis JS</title>
+</head>
+<body>
+    <button onclick="obtenerLocalizacion()">Obtener localización</button>
+    <p id="txtLocalizacion"></p>
+
+    <script>
+        var txtLocalizacion  = document.getElementById("txtLocalizacion");
+
+        function obtenerLocalizacion() {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(mostrarPos, function(error) {
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            txtLocalizacion.innerText = "No tienes permisos de acceder a la Geolocalización";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            txtLocalizacion.innerText = "No se pudo acceder a la localización";
+                            break;
+                        case error.TIMEOUT:
+                            txtLocalizacion.innerText = "El tiempo de respuesta para obtener la localización se agoto";
+                            break;
+                        case error.UKNOWN_ERROR:
+                            txtLocalizacion.innerText = "A ocurrudo un error";
+                        default:
+                            txtLocalizacion.innerText = "A ocurrudo un error";
+                            break;
+                    }
+                });
+            }
+        }
+
+        function mostrarPos(pos) {
+            txtLocalizacion.innerHTML = "Latitud: " + pos.coords.latitude + "<br/>"
+                + "Longitud: " + pos.coords.longitude;
+        }
+    </script>
+</body>
+</html>
