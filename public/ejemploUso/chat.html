@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Workers</title>
+  <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="../css/ejemploUso.css">
+</head>
+<style>
+  form {
+
+    /* padding: 3px; */
+    position: relative;
+    /* bottom: 0; */
+    width: 100%;
+  }
+
+  form input {
+    border: 0;
+    padding: 10px;
+
+    width: 98%;
+    /* height: 80px; */
+
+    /* font-size: 30px;
+    border-radius: 15px; */
+  }
+
+  form button {
+    width: 50%;
+    border-radius: 15px;
+    background: rgb(81, 255, 0);
+    border: none;
+    padding: 10px;
+
+
+  }
+
+  #botonContenedor {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+
+    justify-content: center;
+  }
+
+  #messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+  }
+
+  #messages li {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: black;
+    color: rgb(26, 21, 21);
+    background-color: #3DA4DB;
+  }
+
+  #messages li:nth-child(odd) {
+    background: chartreuse;
+  }
+
+  .alert {
+    background-color: orange;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: medium;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: rgba(255, 5, 5, 0.616);
+  }
+</style>
+
+<body>
+  <a href="../index.html" class="btn-regresar">Regresar</a>
+
+  <div class="contenedor">
+    <div class="row row-chat">
+      <div class="col col-chat">
+
+        <form action="">
+          <input id="m" autocomplete="off" placeholder="Ingresa tu mensaje aqui" />
+          <div id="botonContenedor">
+            <button>Enviar</button>
+          </div>
+
+        </form>
+        <ul id="messages"></ul>
+
+      </div>
+      <div class="col col-conta1">Tiempo que ha estado en esta pagina</div>
+      <div class="col col-conta2">Tienpo desde que envio el ultimo mensaje</div>
+
+    </div>
+  </div>
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <script>
+    //Obtener parametros de url
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var nombre = urlParams.get('nombre');
+    var pais = urlParams.get('cmbPais');
+  </script>
+
+
+
+  <script>
+
+    $(function () {
+      var socket = io();
+      $('form').submit(function (e) {
+        e.preventDefault(); // prevents page reloading
+        socket.emit('chatExample', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+
+      socket.on('chatExample', function (msg) {
+        $('#messages').prepend($('<li>').text(msg));
+      });
+
+
+    });
+  </script>
+</body>
+
+</html>
