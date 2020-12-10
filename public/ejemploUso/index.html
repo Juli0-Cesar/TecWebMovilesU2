@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Workers</title>
+  <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/CodeStyler.css">
+</head>
+
+<body>
+
+  <br>
+
+  <div id="header">
+    <h1 class="titulo"><a href="../index.html">Tecnolog&iacute;as web para m&oacute;viles </a></h1>
+  </div>
+
+  <br>
+
+</style>
+  <div id="contenedor-principal">
+    <h1 class="text-center">Web Workers</h1>
+    <hr>
+    <br>
+    <h2>Ejemplo</h2>
+    <div class="ejemplo">
+      <h2 class="text-center">Contador: <span id="result"></span></h2>
+      <br>
+      <div style="display: flex; justify-content:center;">
+        <button onclick="startWorker()" class="btn btn-success" style="margin-right: 15px;">Iniciar</button>
+        <button onclick="stopWorker()" class="btn btn-danger" style="margin-left: 15px;">Detener</button>
+      </div>
+
+    </div>
+
+    <br>
+    <h2>¿Que es un web Worker?</h2>
+    <p style="margin-left:10px ;">
+      Un Web Worker es un script que se ejecuta en segundo plano, sin afectar o bloquear el desempeño de nuestra página
+      web mediante en otras palabras es una es una API de JavaScript que permite ejecutar scripts en un hilo separado
+      del principal.
+    </p>
+
+    <br>
+    <h2>Casos de uso para su implementaci&oacute;n</h2>
+    <p style="margin-left:10px ;">
+      Los web workers son una excelente opci&oacute;n cuando queremos que nuestra pagina web realice diferentes procesos
+      al mismo tiempo.
+    </p>
+
+    <br>
+    <h2>Como implementarlos</h2>
+    <p style="margin-left:10px ;">
+      Una vez comprobado que el navegador es compatible mediante el siguiente codigo <br>
+
+    <pre><code>
+  if (typeof (Worker) === 'undefined') {
+      document.getElementById('result').innerText = "Tu navegador no es compatible";
+      return;
+  }
+    </pre></code>
+
+    <br> Podemos crear un nuevo web worker mediante <br><br>
+
+    <pre><code>
+  w = new Worker("demo_workers.js");<br>
+    </pre></code>
+
+    <br>
+    Donde w es la variable donde almecenaremos el Web Worker y como parametro añadimos el codigo java Script que
+    ejecutara
+    <br><br>Para finalizar el web worker usamos es siguiente codigo<br><br>
+    <pre><code>
+  function stopWorker() {
+    if (typeof (w) === "undefined") {
+      return;
+    }
+    w.terminate();
+    w = undefined;
+  }
+    </pre></code>
+    </p>
+
+  </div>
+
+
+
+  <script>
+    var w;
+
+    function startWorker() {
+      if (typeof (Worker) === 'undefined') {
+        document.getElementById('result').innerText = "Tu navegador no es compatible";
+        return;
+      }
+
+      if (typeof (w) !== "undefined") {
+        return;
+      }
+
+      w = new Worker("demo_workers.js");
+      w.onmessage = function (event) {
+        document.getElementById("result").innerHTML = event.data;
+      }
+
+    }
+
+    function stopWorker() {
+      if (typeof (w) === "undefined") {
+        return;
+      }
+
+      w.terminate();
+      w = undefined;
+    }
+
+  </script>
+</body>
+
+</html>
