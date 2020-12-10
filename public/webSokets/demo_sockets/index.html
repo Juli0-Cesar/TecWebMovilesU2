@@ -1,0 +1,206 @@
+<!doctype html>
+<html >
+
+<head>
+  <title>Web SocketIO</title>
+  <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/CodeStyler.css">
+  <style>
+    form {
+      background: #254A85;
+      /* padding: 3px; */
+      position: relative;
+      /* bottom: 0; */
+      width: 100%;
+    }
+
+    form input {
+      border: 0;
+      padding: 10px;
+      width: 85%;
+      margin-right: 0.5%;
+    }
+
+    form button {
+      width: 9%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #messages li {
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: black;
+      color: rgb(26, 21, 21);
+      background-color: rgb(51, 144, 51);
+    }
+
+    #messages li:nth-child(odd) {
+      background: chartreuse;
+    }
+
+    .alert {
+      background-color: orange;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: medium;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      color: rgba(255, 5, 5, 0.616);
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <br>
+  <div id="header">
+    <h1 class="titulo"><a href="../../index.html">Tecnolog&iacute;as web para m&oacute;viles </a></h1>
+    <div class="description">Características avanzadas de HTML5 y JS</div>
+  </div>
+  <br><br>
+
+  <div id="contenedor-principal">
+    <h1 class="text-center">Web Sockets</h1>
+    <div class="alert">
+      Para ejecutar el siguiente Web Soket es necesario iniciar el servidor en la consola del sistema operativo mediante el siguiente comando de node js.
+      <pre><code>npm index.js</code></pre> 
+    </div>
+    <h2>Ejemplo</h2>
+    <div class="ejemplo">
+      <form action="">
+        <input id="m" autocomplete="off" placeholder="Ingresa tu mensaje aqui" />
+        <button>Enviar</button>
+      </form>
+      <ul id="messages"></ul>
+
+
+    </div>
+
+    <br>
+    <h2>¿Que es un web Socket?</h2>
+    <p style="margin-left:10px ;">
+      WebSocket es un protocolo de red basado en TCP que establece cómo deben intercambiarse datos entre redes. Puesto
+      que es un protocolo fiable y eficiente, es utilizado por prácticamente todos los clientes. El protocolo TCP
+      establece conexiones entre dos puntos finales de comunicación, llamados sockets. De esta manera, el intercambio de
+      datos puede producirse en las dos direcciones. </p>
+
+    <br>
+    <h2>Casos de uso para su implementaci&oacute;n</h2>
+    <p style="margin-left:10px ;">
+      Los web sockets son usados principalmente cuando es necesario que el servidor tanto como el cliente se comuniquen
+      entre si, sin las restricciones del protocolo http donde el cliente es el que env&iacute;a la solicitud al servidor
+      mientras que el servidor no puede enviar informaci&oacute;n al cliente sin que este se lo all&aacute; solicitado. <br>
+      <br>Esto es especial mente util cuando necesitamos aplicaciones que se actualicen en tiempo real como es el caso
+      de este ejemplo de un chat en tiempo real, seguimiento de eventos en tiempo real entre otros.
+    </p>
+
+
+    <br>
+    <h2>Como implementarlos</h2>
+    <p style="margin-left:10px ;">
+      Existen diferentes formas de implementar web sockets para ello es necesario contar con un servidor configurado de
+      tal forma que pueda responder a toda la informaci&oacute;n enviada para ello en este caso haremos uso de Node js como
+      entorno de ejecucion, ademas de usar la librer&iacute;a de express para configurar el servidor y la librer&iacute;a Socket.io
+      <br> Una vez creado un proyecto de Node, instalado las librer&iacute;as de Express y Socket.io procedemos a escribir el
+      siguiente c&oacute;digo en un archivo llamado index.js
+      <br><br>Importamos las librer&iacute;as necesarias<br>
+      <code><pre>
+        
+  var app = require('express')();
+  var http = require('http').createServer(app);
+  var io = require('socket.io')(http);
+      </pre></code>
+    </p>
+    <p style="margin-left:10px ;">
+      <br><br>Le indicamos a node cual sera el fichero que abrira en la ruta raiz<br>
+      <code><pre>
+
+  app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+  });
+    </pre></code>
+    </p>
+    <p style="margin-left:10px ;">
+      <br><br>Creamos las configuraciones del servidor<br>
+    <code><pre>
+
+  io.on('connection', (socket) => {
+    console.log('a user connected', socket.id);
+      socket.on('disconnect', () => {
+      console.log('user disconnected', socket.id);
+    });
+
+    socket.on('chat message', (msg) => {
+      console.log('message: ' + msg);
+      io.emit('chat message', msg);
+    });
+
+  });
+    </pre></code>
+    </p>
+
+    <p style="margin-left:10px ;">
+      <br><br>Una vez configurado el servidor solo resta la configuraci&oacute;n en el cliente mediante c&oacute;digo Java Script
+      importando las librer&iacute;as instaladas mediante npm y añadiendo el siguiente c&oacute;digo para el envi&oacute; de mensajes.<br>
+      <code><pre>
+        
+  $(function () {
+    var socket = io();
+    $('form').submit(function (e) {
+      e.preventDefault(); // prevents page reloading
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+    socket.on('chat message', function (msg) {
+      $('#messages').append($('< li>').text(msg));
+    });
+  });
+    </pre></code>
+    </p>
+
+    <p style="margin-left:10px ;">
+      <br><br>De esta forma la respuesta del servidor sera enviada al input con el Id=mansaje y los datos enviados seran
+      eviados mediante el input de tipo text al presionar el boton y activar el evento on submit.
+    </p>
+
+  </div>
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <script>
+
+
+
+    $(function () {
+      var socket = io();
+      $('form').submit(function (e) {
+        e.preventDefault(); // prevents page reloading
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+
+      socket.on('chat message', function (msg) {
+        $('#messages').append($('<li>').text(msg));
+      });
+    });
+  </script>
+
+
+
+</body>
+
+</html>

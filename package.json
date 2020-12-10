@@ -9,7 +9,15 @@
   "author": "Ricardo A.",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.15.2",
+    "express": "^4.17.1",
     "socket.io": "^2.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Juli0-Cesar/TecWebMovilesU2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Juli0-Cesar/TecWebMovilesU2/issues"
+  },
+  "homepage": "https://github.com/Juli0-Cesar/TecWebMovilesU2#readme"
 }
