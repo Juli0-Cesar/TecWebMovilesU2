@@ -144,5 +144,8 @@ pre {
     margin-left: 40px;
     max-width: 850px;
   }
+  #header a {
+    font-size: 33px;
+  }
 }
 /*# sourceMappingURL=index.css.map */
