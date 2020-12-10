@@ -2,10 +2,12 @@
 <html >
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web SocketIO</title>
   <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
-  <link rel="stylesheet" href="/css/index.css">
-  <link rel="stylesheet" href="/css/CodeStyler.css">
+  <link rel="stylesheet" href="../../css/index.css">
+  <link rel="stylesheet" href="../../css/CodeStyler.css">
   <style>
     form {
       background: #254A85;
@@ -18,15 +20,29 @@
     form input {
       border: 0;
       padding: 10px;
-      width: 85%;
-      margin-right: 0.5%;
+      
+      width: 98%;
+      /* height: 80px; */
+     
+      /* font-size: 30px;
+      border-radius: 15px; */
     }
 
     form button {
-      width: 9%;
-      background: rgb(130, 224, 255);
+       width: 50%; 
+      border-radius: 15px; 
+      background: rgb(81, 255, 0);
       border: none;
       padding: 10px;
+   
+
+    }
+    #botonContenedor{
+      width: 100%;
+      margin-top: 10px;
+      display: flex;
+      
+      justify-content: center;
     }
 
     #messages {
@@ -61,7 +77,9 @@
 </head>
 
 <body>
+<style>
 
+</style>
   <br>
   <div id="header">
     <h1 class="titulo"><a href="../../index.html">Tecnolog&iacute;as web para m&oacute;viles </a></h1>
@@ -76,7 +94,10 @@
     <div class="ejemplo">
       <form action="">
         <input id="m" autocomplete="off" placeholder="Ingresa tu mensaje aqui" />
-        <button>Enviar</button>
+        <div id="botonContenedor">
+          <button>Enviar</button>
+        </div>
+        
       </form>
       <ul id="messages"></ul>
 
