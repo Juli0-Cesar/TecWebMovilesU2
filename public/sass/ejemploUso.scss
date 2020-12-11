@@ -227,7 +227,9 @@ body {
 }
 
 
-
+.row{
+    background-color: rgb(255, 238, 0);;
+}
 
 .row-chat{
     display: grid;
@@ -238,7 +240,7 @@ body {
     background-color: aqua;
     grid-column: 1;
     grid-row: span 2;
-    height: 400px;
+    height: 412px;
     padding: 30px 20px;
     overflow-y: scroll;;
 }
@@ -253,5 +255,8 @@ body {
 @media only screen and (max-width: 700px) {
     .row-chat{
         grid-template: 1fr 1fr 1fr 1fr/ 1fr;
+    }
+    .contenedor{
+        padding: 0px;
     }
 }

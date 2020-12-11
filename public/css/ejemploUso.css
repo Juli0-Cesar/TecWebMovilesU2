@@ -221,6 +221,10 @@ select:focus + .focus {
   margin-top: 100px;
 }
 
+.row {
+  background-color: #ffee00;
+}
+
 .row-chat {
   display: grid;
   grid-template: 1fr 1fr/ 1fr 1fr;
@@ -230,7 +234,7 @@ select:focus + .focus {
   background-color: aqua;
   grid-column: 1;
   grid-row: span 2;
-  height: 400px;
+  height: 412px;
   padding: 30px 20px;
   overflow-y: scroll;
 }
@@ -248,6 +252,9 @@ select:focus + .focus {
 @media only screen and (max-width: 700px) {
   .row-chat {
     grid-template: 1fr 1fr 1fr 1fr/ 1fr;
+  }
+  .contenedor {
+    padding: 0px;
   }
 }
 /*# sourceMappingURL=ejemploUso.css.map */

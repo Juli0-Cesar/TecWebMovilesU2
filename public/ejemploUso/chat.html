@@ -59,6 +59,7 @@
     border: black;
     color: rgb(26, 21, 21);
     background-color: #3DA4DB;
+    margin: 5px 0px;
   }
 
   #messages li:nth-child(odd) {
@@ -93,8 +94,17 @@
         <ul id="messages"></ul>
 
       </div>
-      <div class="col col-conta1">Tiempo que ha estado en esta pagina</div>
-      <div class="col col-conta2">Tienpo desde que envio el ultimo mensaje</div>
+      <div class="col col-conta1">
+
+        <h2 class="text-center">Tiempo que ha estado en esta pagina<br> <span id="resultTiempoEnPagina">0</span> segundos</h2>
+
+
+      </div>
+      <div class="col col-conta2">
+        
+        <h2 class="text-center">Tiempo desde que envio el ultimo mensaje<br> <span id="resultMensajeEnviado">0</span> segundos</h2>
+
+      </div>
 
     </div>
   </div>
@@ -109,28 +119,108 @@
     const urlParams = new URLSearchParams(queryString);
     var nombre = urlParams.get('nombre');
     var pais = urlParams.get('cmbPais');
-  </script>
-
-
-
-  <script>
+    //<!-- Web sockets -->
+    var msgResibido = "";
 
     $(function () {
       var socket = io();
       $('form').submit(function (e) {
+        stopMensajeEnviado();
+        startMensajeEnviado();
         e.preventDefault(); // prevents page reloading
         socket.emit('chatExample', $('#m').val());
         $('#m').val('');
         return false;
       });
-
+      
       socket.on('chatExample', function (msg) {
+        msgResibido = msg;
         $('#messages').prepend($('<li>').text(msg));
+          mostrarNotificacion();
       });
-
-
     });
-  </script>
+
+    // <!-- Web workers -->
+    
+    var w;
+    function startTiempoPagina() {
+      if (typeof (Worker) === 'undefined') {
+        document.getElementById('result').innerText = "Tu navegador no es compatible";
+        return;
+      }
+      if (typeof (w) !== "undefined") { return; }
+      w = new Worker("webWorkerContador.js");
+      w.onmessage = function (event) {
+        document.getElementById("resultTiempoEnPagina").innerHTML = event.data;
+      }
+    }
+    startTiempoPagina();
+
+    var w2;
+
+  function startMensajeEnviado() {
+    if (typeof (Worker) === 'undefined') {
+      document.getElementById('resultMensajeEnviado').innerText = "Tu navegador no es compatible";
+      return;
+    }
+
+    if (typeof (w2) !== "undefined") {
+      return;
+    }
+
+    w2 = new Worker("mensajeEnviado.js");
+    w2.onmessage = function (event) {
+      document.getElementById("resultMensajeEnviado").innerHTML = event.data;
+    }
+
+  }
+
+  function stopMensajeEnviado() {
+    if (typeof (w2) === "undefined") {
+      return;
+    }
+    w2.terminate();
+    w2 = undefined;
+  }
+
+//<!-- Notificaciones  -->
+
+function mostrarNotificacion() {
+  
+  
+
+  
+    var txtMensaje = document.getElementById("txtMensaje");
+    if (!window.Notification) {
+        txtMensaje.innerText = "No es compatible tu navegador";
+    }
+    Notification.requestPermission(function (status) {
+        if (Notification.permission !== status) {
+            Notification.permission = status;
+        }
+
+        if (Notification.permission == "granted") {
+            var n = new Notification("Tienes un nuevo mensaje", {
+                body: msgResibido,
+                icon: "https://static.wixstatic.com/media/4b56e2_2d425e2f2d844ed6a03040430e4f6646.png/v1/fill/w_266,h_266,al_c,lg_1,q_95/4b56e2_2d425e2f2d844ed6a03040430e4f6646.webp",
+                //image: "https://ecosistemas.ovacen.com/wp-content/uploads/2018/01/bosque-1280x720.jpg",
+                vibrate: [200, 100],
+                data: { userId: 1235, mensaje: msgResibido },
+
+            });
+
+            n.onclick = (args) => {
+                alert("Se le dio click");
+                console.log(args.currentTarget.data);
+            }
+        } else {
+            txtMensaje.innerText = "No tienes permiso para mandar notifiaciones";
+        }
+    });
+ 
+}
+</script>
+
 </body>
 
 </html>
