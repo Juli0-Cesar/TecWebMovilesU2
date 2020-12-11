@@ -24,3 +24,13 @@ O tambien se puede usar:
 npm index.js
 ```
 [Abrir el siguiente link en el navegador](http://localhost:3000)
+
+## Integrantes
+    
+<hr>
+<br>
+<ul>
+    <li>Julio Cesar Fern&aacute;ndez Hern&aacute;ndez</li>
+    <li>Oscar Vidal Andres</li>
+    <li>Marisol Vidal Andres</li>
+</ul>
