@@ -25,3 +25,4 @@ npm index.js
 ```
 [Abrir el siguiente link en el navegador](http://localhost:3000)
 
+<img src="Screenshot.png">
